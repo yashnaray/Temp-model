@@ -1,13 +1,12 @@
 import cv2
-import torch
 import numpy as np
-from ultralytics import yolo
-import mediapipe as mp
 
 class PropertyDetector:
     def __init__(self):
-        self.segmentation_model = yolo('yolov8n-seg.pt')
-        self.mediapipe_pose = mp.solutions.
+        self.cascade_classifiers = {
+            'window': cv2.CascadeClassifier(),
+            'door': cv2.CascadeClassifier()
+        }
         
         self.property_classes = {
             'roof': 0, 'wall': 1, 'window': 2, 'door': 3,
@@ -15,24 +14,25 @@ class PropertyDetector:
         }
     
     def detect_components(self, image):
-        results = self.segmentation_model(image)
-        
         components = {}
-        for result in results:
-            masks = result.masks
-            boxes = result.boxes
-            classes = result.names
-            
-            for i, mask in enumerate(masks):
-                class_name = classes[int(boxes.cls[i])]
-                if class_name in self.property_classes:
-                    components[class_name] = {
-                        'mask': mask.data.cpu().numpy(),
-                        'confidence': boxes.conf[i].cpu().numpy(),
-                        'bbox': boxes.xyxy[i].cpu().numpy()
-                    }
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        edges = cv2.Canny(gray, 50, 150)
+        contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         
-        return components
+        # Initial component detection: IMPROVE
+        for i, contour in enumerate(contours[:5]):
+            x, y, w, h = cv2.boundingRect(contour)
+            area = cv2.contourArea(contour)
+            
+            if area > 1000:
+                component_type = self._classify_component(w, h, area)
+                components[f"{component_type}_{i}"] = {
+                    'bbox': [x, y, x+w, y+h],
+                    'confidence': 0.8,
+                    'area': area
+                }
+        
+        return {'properties': components, 'property_summary': len(components)}
     
     def estimate_measurements(self, image, components):
         door_height_pixels = self._extract_feature_height(components.get('door', {}))
@@ -54,17 +54,17 @@ class PropertyDetector:
                 }
         
         return measurements
-
+    
+    def _classify_component(self, width, height, area):
+        aspect_ratio = width / height if height > 0 else 1
+        
+        if aspect_ratio > 2: return 'roof'
+        elif aspect_ratio < 0.5: return 'wall'
+        elif area < 5000: return 'window'
+        else: return 'door'
+    
     def _extract_feature_height(self, door_data):
-        if not door_data or 'mask' not in door_data: return None
-
-        mask = door_data['mask']
-        y, x = np.where(mask > 0)
-        if len(y) == 0 or len(x) == 0: return None
-
-        min_y, max_y = np.min(y), np.max(y)
-        min_x, max_x = np.min(x), np.max(x)
-
-        door_height_pixels = max_y - min_y
-
-        return door_height_pixels
+        if not door_data or 'bbox' not in door_data: return None
+        
+        bbox = door_data['bbox']
+        return bbox[3] - bbox[1]  # height = y2 - y1

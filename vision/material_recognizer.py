@@ -1,0 +1,2 @@
+class MaterialRecognizer:
+    pass

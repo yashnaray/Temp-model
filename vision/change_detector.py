@@ -53,8 +53,15 @@ class ChangeDetector:
                 if diff_image[y, x] > threshold: significant_changes.append((x, y, 1, 1))
         return significant_changes
     def _align_images(self, img1, img2):
-        keypoints1, descriptors1 = self.orb.detectAndCompute(cv2.cvtColor(img1, cv2.COLOR_RGB2GRAY))
-        keypoints2, descriptors2 = self.orb.detectAndCompute(cv2.cvtColor(img2, cv2.COLOR_RGB2GRAY))
+        gray1 = cv2.cvtColor(img1, cv2.COLOR_RGB2GRAY)
+        gray2 = cv2.cvtColor(img2, cv2.COLOR_RGB2GRAY)
+        
+        # Use separate detect and compute to avoid mask issues
+        keypoints1 = self.orb.detect(gray1)
+        keypoints1, descriptors1 = self.orb.compute(gray1, keypoints1)
+        
+        keypoints2 = self.orb.detect(gray2)
+        keypoints2, descriptors2 = self.orb.compute(gray2, keypoints2)
         
         matches = self.bf.match(descriptors1, descriptors2)
         matches = sorted(matches, key=lambda x: x.distance)

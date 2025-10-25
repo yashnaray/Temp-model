@@ -1,7 +1,6 @@
-# vision/condition_scorer.py
 import cv2
 import numpy as np
-from sklearn.ensemble import RandomForestRegressor
+# from sklearn.ensemble import RandomForestRegressor
 import joblib
 
 class ConditionScorer:
