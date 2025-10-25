@@ -1,7 +1,8 @@
 import chromadb
-from langchain.vectorstores import Chroma
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from typing import List
+from langchain_community.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 class PropertyVectorStore:
     def __init__(self, persist_directory: str = "./chroma_db"):
@@ -13,7 +14,7 @@ class PropertyVectorStore:
         self.vector_store= Chroma(client=chromadb.Client(), embedding_function=self.embeddings)
         self.persist_directory = persist_directory
     
-    def initialize_vector_store(self, knowledge_base: KnowledgeBase):
+    def initialize_vector_store(self, knowledge_base):
         all_documents = []
         
         for category, docs in knowledge_base.documents.items():
@@ -29,12 +30,12 @@ class PropertyVectorStore:
             embedding=self.embeddings,
             persist_directory=self.persist_directory
         )
-        self.vector_store.persist()
+        # self.vector_store.persist()  # Not available in this version
     
-    def query(self, query: str, categories: List[str] = None, n_results: int = 5):
+    def query(self, query: str, categories: List[str] = [], n_results: int = 5):
         """Query the vector store with optional category filtering"""
         if categories:
-            where_clause = {"category": {"$in": categories}}
+            where_clause = {"category": categories[0]}
             results = self.vector_store.similarity_search(
                 query, 
                 k=n_results,

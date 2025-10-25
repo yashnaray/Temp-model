@@ -1,4 +1,4 @@
-
+from typing import Dict, List
 class HomeInspectorAgent:
     def __init__(self, query_engine):
         self.query_engine = query_engine
@@ -45,3 +45,27 @@ class HomeInspectorAgent:
                 })
         
         return schedule
+    def _generate_inspection_questions(self, cv_results: Dict) -> List[str]:
+        questions = []
+        for component, condition in cv_results.get('condition_scores', {}).items(): 
+            if condition < 8: questions.append(f"What issues are common with {component} at condition score {condition}?")
+        return questions
+    
+    def _identify_priority_issues(self, cv_results: Dict) -> List[str]:
+        priority_issues = []
+        for component, condition in cv_results.get('condition_scores', {}).items():
+            if condition < 5: priority_issues.append(f"{component} at condition score {condition}")
+        return priority_issues
+    
+    def _identify_priority_repairs(self, cv_results: Dict) -> List[str]:
+        priority_repairs = []
+        for component, condition in cv_results.get('condition_scores', {}).items():
+            if condition < 8: priority_repairs.append(f"Repair {component} at condition score {condition}")
+        return priority_repairs
+
+    def _identify_safety_issues(self, cv_results: Dict) -> List[str]:
+        safety_issues = []
+        for component, condition in cv_results.get('condition_scores', {}).items():
+            if component in ['electrical_system', 'roof', 'foundation'] and condition < 6:
+                safety_issues.append(f"Potential safety concern with {component} at condition score {condition}")
+        return safety_issues

@@ -2,11 +2,11 @@ import os
 import json
 import pandas as pd
 from typing import List, Dict
-from langchain.schema import Document
-from langchain.document_loaders import (
+from langchain_core.documents import Document
+from langchain_community.document_loaders import (
     DirectoryLoader,
     TextLoader,
-    PDFPlumberLoader,
+    PyPDFLoader,
     CSVLoader
 )
 
@@ -20,7 +20,7 @@ class KnowledgeBase:
             'building_codes': DirectoryLoader(
                 f"{self.knowledge_base_path}/building_codes",
                 glob="**/*.pdf",
-                loader_cls=PDFPlumberLoader
+                loader_cls=PyPDFLoader
             ),
             'insurance_guidelines': DirectoryLoader(
                 f"{self.knowledge_base_path}/insurance_guidelines", 

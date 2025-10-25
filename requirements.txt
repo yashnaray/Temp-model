@@ -1,12 +1,16 @@
 torch>=2.0.0
 torchvision>=0.15.0
 transformers>=4.30.0
-opencv-python>=4.10.0
+opencv-python>=4.1.1,<=4.6.0.66
 ultralytics==8.0.0
 mediapipe==0.10.21
 paddleocr==2.7.0
 
 langchain==0.0.200
+langchain-community
+langchain-core
+langchain-openai
+langchain-text-splitters
 chromadb==0.4.0
 openai==0.27.0
 crewai==0.1.0 
