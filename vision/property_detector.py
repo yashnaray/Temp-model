@@ -1,14 +1,13 @@
-# vision/property_detector.py
 import cv2
 import torch
 import numpy as np
-from ultralytics import YOLO
+from ultralytics import yolo
 import mediapipe as mp
 
 class PropertyDetector:
     def __init__(self):
-        self.segmentation_model = YOLO('yolov8n-seg.pt')
-        self.mediapipe_pose = mp.solutions.pose.Pose()
+        self.segmentation_model = yolo('yolov8n-seg.pt')
+        self.mediapipe_pose = mp.solutions.
         
         self.property_classes = {
             'roof': 0, 'wall': 1, 'window': 2, 'door': 3,
@@ -61,8 +60,7 @@ class PropertyDetector:
 
         mask = door_data['mask']
         y, x = np.where(mask > 0)
-        if len(y) == 0 or len(x) == 0:
-            return None
+        if len(y) == 0 or len(x) == 0: return None
 
         min_y, max_y = np.min(y), np.max(y)
         min_x, max_x = np.min(x), np.max(x)

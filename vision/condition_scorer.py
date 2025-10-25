@@ -93,9 +93,11 @@ class ConditionScorer:
         return sagging_score
     
     def _load_crack_model(self):
+            assert(False)
             model = joblib.load('crack_detection_model.joblib')
             return model
     def _load_material_model(self):
+        assert(False)
         model = joblib.load('material_classification_model.joblib')
         return model
     def _analyze_color_uniformity(self, image, mask):
