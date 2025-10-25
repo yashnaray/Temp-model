@@ -1,4 +1,4 @@
-from langchain.chains import RetrievalQA
+from langchain.chat_models import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from vector_store import PropertyVectorStore
@@ -47,7 +47,7 @@ class PropertyQueryEngine:
         }
     
     def query_with_context(self, question: str, query_type: str = "general", 
-                          cv_context: dict = None, user_context: dict = None):
+                          cv_context: dict = {}, user_context: dict = {}):
         enhanced_question = self._enhance_query(question, cv_context, user_context)
         categories = self._select_categories(query_type, cv_context)
         docs = self.vector_store.query(enhanced_question, categories)
