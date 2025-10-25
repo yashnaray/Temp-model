@@ -2,20 +2,20 @@ torch>=2.0.0
 torchvision>=0.15.0
 transformers>=4.30.0
 opencv-python>=4.10.0
-ultralytics=8.0.0
-mediapipe=0.10.21
-paddleocr=2.7.0
+ultralytics==8.0.0
+mediapipe==0.10.21
+paddleocr==2.7.0
 
-langchain=0.0.200
-chromadb=0.4.0
-openai=0.27.0
-crewai=0.1.0 
+langchain==0.0.200
+chromadb==0.4.0
+openai==0.27.0
+crewai==0.1.0 
 
-fastapi=0.95.0
-uvicorn=0.21.0
-python-multipart=0.0.6
+fastapi==0.95.0
+uvicorn==0.21.0
+python-multipart==0.0.6
 
-streamlit=1.22.0
+streamlit==1.22.0
 plotly>=5.14.0
 pillow>=9.5.0
 
