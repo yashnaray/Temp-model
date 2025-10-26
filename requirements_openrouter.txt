@@ -1,0 +1,6 @@
+# OpenRouter integration requirements
+requests>=2.25.0
+langchain-core>=0.1.0
+
+# Optional: for better error handling
+urllib3>=1.26.0

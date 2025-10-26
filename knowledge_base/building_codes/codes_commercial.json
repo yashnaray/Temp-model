@@ -1,0 +1,30 @@
+{
+  "location": "Manhattan, NY",
+  "codes": {
+    "applicable_codes": [
+      {
+        "code_id": "IRC_2021_R302",
+        "title": "Fire-Resistance-Rated Construction",
+        "description": "Requirements for fire-resistant construction between dwelling units",
+        "category": "fire_safety",
+        "effective_date": "2021-01-01"
+      },
+      {
+        "code_id": "IRC_2021_R311",
+        "title": "Means of Egress",
+        "description": "Requirements for exits and emergency egress",
+        "category": "safety",
+        "effective_date": "2021-01-01"
+      }
+    ],
+    "compliance_status": {
+      "overall_compliance": "compliant",
+      "issues": [],
+      "recommendations": [
+        "Consider upgrading smoke detectors to current standards",
+        "Verify GFCI outlets in bathrooms and kitchen"
+      ],
+      "last_updated": "2024-01-01"
+    }
+  }
+}

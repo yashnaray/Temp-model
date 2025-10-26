@@ -1,0 +1,26 @@
+{
+  "guidelines": {
+    "risk_factors": {
+      "flood_risk": "moderate",
+      "fire_risk": "low",
+      "crime_rate": "low",
+      "weather_risk": "moderate",
+      "overall_risk_score": 0.35
+    },
+    "quote": {
+      "quote_id": "mock_quote_123",
+      "annual_premium": 1200.0,
+      "dwelling_coverage": 240000.0,
+      "personal_property": 150000.0,
+      "liability": 300000,
+      "deductible": 2500,
+      "effective_date": "2024-01-01"
+    },
+    "recommendations": {
+      "dwelling_coverage": 240000.0,
+      "recommended_deductible": 6000.0,
+      "additional_coverage": [],
+      "estimated_premium": 972.0000000000001
+    }
+  }
+}

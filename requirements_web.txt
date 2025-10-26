@@ -1,0 +1,11 @@
+# Web application requirements
+Flask>=2.3.0
+markdown>=3.4.0
+pdfkit>=1.0.0
+
+# Optional: for better PDF generation
+# wkhtmltopdf (system package)
+
+# Core dependencies
+requests>=2.25.0
+opencv-python>=4.5.0
